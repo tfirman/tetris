@@ -16,8 +16,7 @@ function Point(x, y, center) {
     }
     this.meta = {};
 }
-// POINT OBJECT DEFINITION
-//returns a new point at x, y with all meta-information of the current point
+
 Point.prototype.newCopy = function (x, y) {
     var newPoint = new Point(x, y);
     newPoint.center = this.center;
@@ -44,8 +43,6 @@ Point.prototype.multiply = function (amount) {
 Point.prototype.toString = function () {
     return "(" + this.x + ", " + this.y + ")";
 }
-
-//BLOCK OBJECT DEFINITION
 
 function Block(points, color, rotator) {
     this.points = points;

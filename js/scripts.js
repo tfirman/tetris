@@ -45,10 +45,13 @@ function dropBlock(c, canvas) {
 		}
 	}, timer);
 }
+
 function gameOver() {
     clearInterval(dropInterval);
     $("#canvas").hide();
     $("#game-over").show();
+		$("#score").text("Score: "+score);
+		$("#score").show();
 }
 
 function moveLeft(c, canvas) {
@@ -133,33 +136,9 @@ function startScreen(c, canvas) {
 		}
 		$('#canvas').click(function(e){
 			clearInterval(textInterval);
-			var logoFadeInterval = window.setInterval(function () {
-				c.globalAlpha -= 0.01;
-				c.clearRect(0, 0, canvas.width, canvas.height);
-				c.drawImage(image, 0, 0);
-				if (c.globalAlpha <= .01) {
-					//clearInterval(logoFadeInterval);
-					c.clearRect(0, 0, canvas.width, canvas.height);
-					c.globalAlpha = 1;
-					//document.body.onkeydown = null;
-				};
-			}, 10);
-			clearInterval(logoFadeInterval);
 			main(c,canvas);
 		});
 	}, 500);
-}
-
-function buildCanvas(c, canvas) {
-	c.lineWidth = 4;
-	c.beginPath();
-	c.moveTo(2, 2);
-	c.lineTo(506, 2);
-	c.lineTo(506, 1006);
-	c.lineTo(2, 1006);
-	c.closePath();
-	//c.fill();
-	c.stroke();
 }
 
 function colorPick(color) {
@@ -207,24 +186,23 @@ function getNewPiece() {
 
 function drawScreen(c, canvas) {
 	c.clearRect(0, 0, canvas.width, canvas.height);
-	buildCanvas(c, canvas);
-    drawUI(c);
-    c.fillStyle = '#000000';
-    c.fillRect(506, 0, 50, 1008);
-    c.fillRect(556, 208, 308, 40);
-    c.fillRect(556, 377, 308, 631);
-	for (var i = 0; i < inputPiece.points.length; i++) {
-		drawTile(c, inputPiece.points[i].x, inputPiece.points[i].y, inputPiece.points[i].meta.color);
-	}
-	for (var o = 0; o < bottomBlock.points.length; o++) {
-		drawTile(c, bottomBlock.points[o].x, bottomBlock.points[o].y, bottomBlock.points[o].meta.color);
-	}
+	drawUI(c);
+	inputPiece.points.forEach(function(Point) {
+		drawTile(c, Point.x, Point.y, Point.meta.color);
+	});
+	bottomBlock.points.forEach(function(Point) {
+		drawTile(c, Point.x, Point.y, Point.meta.color);
+	});
+	nextPiece.points.forEach(function(Point) {
+		drawTile(c, Point.x + 9, Point.y + 1, Point.meta.color);
+	});
 }
 
 function drawTile(c, x, y, color) {
 	var xPos = (50 * x) + 5;
 	var yPos = (50 * y) + 5;
 	var colors = colorPick(color);
+	
 	c.lineWidth = 2;
 	c.beginPath();
 	c.moveTo(xPos, yPos);
@@ -260,7 +238,6 @@ function drawTile(c, x, y, color) {
 	c.closePath();
 	c.fill();
 
-	//c.fillStyle = '#aaaaaa';
 	c.beginPath();
 	c.moveTo(xPos + 1, yPos + 1);
 	c.lineTo(xPos + 9, yPos + 9);
@@ -288,8 +265,16 @@ function drawTile(c, x, y, color) {
 }
 
 function drawUI(c, canvas) {
+	c.lineWidth = 4;
 	c.beginPath();
-	//c.lineWidth = 4;
+	c.moveTo(2, 2);
+	c.lineTo(506, 2);
+	c.lineTo(506, 1006);
+	c.lineTo(2, 1006);
+	c.closePath();
+	c.stroke();
+
+	c.beginPath();
 	c.fillStyle = '#ccffdd';
 	c.moveTo(556, 2);
 	c.lineTo(860, 2);
@@ -311,7 +296,8 @@ function drawUI(c, canvas) {
 	c.fillText('Score:', 708, 300);
 	c.fillText(score, 708, 350);
 
-	nextPiece.points.forEach(function(Point) {
-		drawTile(c, Point.x + 9, Point.y + 1, Point.meta.color);
-	});
+	c.fillStyle = '#000000';
+	c.fillRect(506, 0, 50, 1008);
+	c.fillRect(556, 208, 308, 40);
+	c.fillRect(556, 377, 308, 631);
 }
