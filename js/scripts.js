@@ -7,33 +7,36 @@ $(document).ready(function () {
 	inputPiece = getNewPiece();
   canvas = document.getElementById('canvas');
 	c = canvas.getContext('2d');
+	noMoreInput = false;
 	startScreen(c, canvas);
 })
 
 var main = function (c, canvas) {
 	dropBlock(c,canvas);
 	document.onkeydown = function (e) {
-		e.preventDefault();
-		switch (e.keyCode) {
-		case 37:
-			moveLeft(c, canvas);
-			break;
-		case 38:
-			rotatePiece(c, canvas);
-			break;
-		case 39:
-			moveRight(c, canvas);
-			break;
-		case 40:
-			moveDown(c, canvas);
-			break;
-		case 32:
-			moveDownAll(c,canvas);
-			break;
-		default:
-			console.log('non arrow key');
-		}
-		drawScreen(c, canvas);
+		if (!noMoreInput) {
+			e.preventDefault();
+			switch (e.keyCode) {
+			case 37:
+				moveLeft(c, canvas);
+				break;
+			case 38:
+				rotatePiece(c, canvas);
+				break;
+			case 39:
+				moveRight(c, canvas);
+				break;
+			case 40:
+				moveDown(c, canvas);
+				break;
+			case 32:
+				moveDownAll(c,canvas);
+				break;
+			default:
+				console.log('non arrow key');
+			};
+			drawScreen(c, canvas);
+		};
 	};
 }
 
@@ -178,8 +181,9 @@ function getNewPiece() {
 	}
 	nextPiece = blockArr.shift();
     if (iPiece.collides(bottomBlock)) {
-        gameOver();
-        console.log("GAME OVER, your score was: ", score);
+		  noMoreInput = true
+      gameOver();
+      console.log("GAME OVER, your score was: ", score);
     }
 	return iPiece;
 }
@@ -202,7 +206,7 @@ function drawTile(c, x, y, color) {
 	var xPos = (50 * x) + 5;
 	var yPos = (50 * y) + 5;
 	var colors = colorPick(color);
-	
+
 	c.lineWidth = 2;
 	c.beginPath();
 	c.moveTo(xPos, yPos);
