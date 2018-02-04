@@ -4,7 +4,7 @@ A recreation of the classic video game "Tetris", built primarily in JavaScript. 
 
 ## Installation
 
-This game can be played online, with no additional setup required, at [GitHub.io](http://tfirman/github.io/tetris).
+This game can be played online, with no additional setup required, at [GitHub.io](http://tfirman.github.io/tetris).
 
 To instead setup a local copy on your machine:
 
