@@ -206,11 +206,11 @@ function buildBlockArr() {
 }
 
 const pieces = {
-    piece1: new Block([new Point(0, 0), new Point(1, 0, true), new Point(2, 0), new Point(3, 0)], 1, lineRotator),
-    piece2: new Block([new Point(0, 1), new Point(0, 0), new Point(1, 0, true), new Point(2, 0)], 2),
-    piece3: new Block([new Point(0, 0), new Point(1, 0, true), new Point(2, 0), new Point(2, 1)], 3),
-    piece4: new Block([new Point(1, 1, true), new Point(1, 0), new Point(0, 0), new Point(0, 1)], 4, squareRotator),
-    piece5: new Block([new Point(0, 0), new Point(1, 0), new Point(1, 1, true), new Point(2, 1)], 5),
-    piece6: new Block([new Point(0, 1), new Point(1, 1, true), new Point(1, 0), new Point(2, 0)], 6),
-    piece7: new Block([new Point(1, 1), new Point(1, 0, true), new Point(0, 0), new Point(2, 0)], 7)
+    piece1: new Block([new Point(3, 0), new Point(4, 0, true), new Point(5, 0), new Point(6, 0)], 1, lineRotator),
+    piece2: new Block([new Point(3, 1), new Point(3, 0), new Point(4, 0, true), new Point(5, 0)], 2),
+    piece3: new Block([new Point(3, 0), new Point(4, 0, true), new Point(5, 0), new Point(5, 1)], 3),
+    piece4: new Block([new Point(4, 1, true), new Point(4, 0), new Point(3, 0), new Point(3, 1)], 4, squareRotator),
+    piece5: new Block([new Point(3, 0), new Point(4, 0), new Point(4, 1, true), new Point(5, 1)], 5),
+    piece6: new Block([new Point(3, 1), new Point(4, 1, true), new Point(4, 0), new Point(5, 0)], 6),
+    piece7: new Block([new Point(4, 1), new Point(4, 0, true), new Point(3, 0), new Point(5, 0)], 7)
 };

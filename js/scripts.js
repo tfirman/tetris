@@ -196,16 +196,16 @@ function colorPick(color) {
 }
 
 function getNewPiece() {
-	inputPiece = nextPiece;
+	iPiece = nextPiece;
 	if (blockArr.length === 0) {
 		blockArr = buildBlockArr();
 	}
 	nextPiece = blockArr.shift();
-    if (inputPiece.collides(bottomBlock)) {
+    if (iPiece.collides(bottomBlock)) {
         gameOver();
         console.log("GAME OVER");
     }
-	return inputPiece;
+	return iPiece;
 }
 
 function drawScreen(c, canvas) {
@@ -315,6 +315,6 @@ function drawUI(c, canvas) {
 	c.fillText(score, 708, 350);
 
 	nextPiece.points.forEach(function(Point) {
-		drawTile(c, Point.x + 12, Point.y + 1, Point.meta.color);
+		drawTile(c, Point.x + 9, Point.y + 1, Point.meta.color);
 	});
 }
