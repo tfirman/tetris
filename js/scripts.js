@@ -1,8 +1,11 @@
 $(document).ready(function () {
+	score = 0;
+  timer = 1000;
+	bottomBlock = new Block([], 1);
 	blockArr = buildBlockArr();
 	nextPiece = blockArr.shift();
 	inputPiece = getNewPiece();
-	canvas = document.getElementById('canvas');
+  canvas = document.getElementById('canvas');
 	c = canvas.getContext('2d');
     //startScreen(c, canvas);
 	//drawAll(c, canvas);
@@ -32,8 +35,8 @@ $(document).ready(function () {
 	};
 
 });
-function dropBlock(c, canvas, timer) {
-	var timer = timer || 500;
+function dropBlock(c, canvas) {
+	if (typeof dropInterval !== 'undefined') {clearInterval(dropInterval)};
 	dropInterval = setInterval(function() {
 		if (moveDown(c, canvas) === false) {
 			drawScreen(c, canvas);
@@ -74,7 +77,7 @@ function moveDown(c, canvas) {
 		bottomBlock = mergeBlocks(bottomBlock, inputPiece);
 		inputPiece = getNewPiece();
 		return false;
-	} 
+	}
 	else {
 		inputPiece = inputPiece.translate(directions.down);
 		drawScreen(c, canvas);
@@ -314,21 +317,4 @@ function drawUI(c, canvas) {
 	nextPiece.points.forEach(function(Point) {
 		drawTile(c, Point.x + 12, Point.y + 1, Point.meta.color);
 	});
-}
-
-function drawNextTile(c, canvas, x, y) {
-
-	if ((x <= 5) && (y <= 3)) {
-		var xPos = (50 * x) + 560;
-		var yPos = (50 * y) + 6;
-		c.beginPath();
-		c.moveTo(xPos, yPos);
-		c.lineTo(xPos + 46, yPos);
-		c.lineTo(xPos + 46, yPos + 46);
-		c.lineTo(xPos, yPos + 46);
-		c.closePath();
-		c.stroke();
-	} else {
-		console.log('Call out of bounds to drawNextTile function');
-	}
 }

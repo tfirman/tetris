@@ -154,16 +154,6 @@ var squareRotator = function (counterclockwise) {
     return this;
 }
 
-var currentBlock0 = new Block([new Point(0, 19), new Point(0, 18, true), new Point(0, 17), new Point(0, 16)], 1);
-var currentBlock1 = new Block([new Point(1, 19), new Point(1, 18, true), new Point(2, 18), new Point(2, 19)], 2);
-var currentBlock2 = new Block([new Point(3, 19), new Point(3, 18, true), new Point(4, 18), new Point(4, 19)], 3);
-var currentBlock3 = new Block([new Point(5, 19), new Point(5, 18, true), new Point(5, 17), new Point(5, 16)], 1);
-var currentBlock4 = new Block([new Point(6, 19), new Point(6, 18, true), new Point(7, 18), new Point(7, 19)], 5);
-var currentBlock5 = new Block([new Point(8, 19), new Point(8, 18, true), new Point(9, 19), new Point(9, 18)], 7);
-
-var bottomBlock = new Block([], 1);
-var score = 0;
-
 function mergeBlocks(bottomBlock, currentBlock) {
     bottomBlock.points.push.apply(bottomBlock.points, currentBlock.points);
     var numPointsInRow = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -173,6 +163,7 @@ function mergeBlocks(bottomBlock, currentBlock) {
     for (i = 0; i <= 19; i++) {
         if (numPointsInRow[i] === 10) {
             score += 100;
+            timer = Math.floor(0.96*timer);
             var tempBBlock = new Block([], 1);
             bottomBlock.points.forEach(function (Point) {
                 if (Point.y > i) {
@@ -182,6 +173,7 @@ function mergeBlocks(bottomBlock, currentBlock) {
                 };
             })
             bottomBlock = tempBBlock;
+            dropBlock(c,canvas);
         };
     };
     return bottomBlock;
