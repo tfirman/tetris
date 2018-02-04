@@ -7,8 +7,10 @@ $(document).ready(function () {
 	inputPiece = getNewPiece();
   canvas = document.getElementById('canvas');
 	c = canvas.getContext('2d');
-    //startScreen(c, canvas);
-	//drawAll(c, canvas);
+	startScreen(c, canvas);
+})
+
+var main = function (c, canvas) {
 	dropBlock(c,canvas);
 	document.onkeydown = function (e) {
 		e.preventDefault();
@@ -26,15 +28,15 @@ $(document).ready(function () {
 			moveDown(c, canvas);
 			break;
 		case 32:
-		  moveDownAll(c,canvas);
+			moveDownAll(c,canvas);
 			break;
 		default:
 			console.log('non arrow key');
 		}
 		drawScreen(c, canvas);
 	};
+}
 
-});
 function dropBlock(c, canvas) {
 	if (typeof dropInterval !== 'undefined') {clearInterval(dropInterval)};
 	dropInterval = setInterval(function() {
@@ -114,14 +116,14 @@ function rotatePiece(c, canvas) {
 
 function startScreen(c, canvas) {
 	var blinkOn = true;
-	var textInteveral = window.setInterval(function () {
+	var textInterval = window.setInterval(function () {
 		var image = document.getElementById('source');
 		if (blinkOn) {
 			blinkOn = false;
 			//console.log("Blink On");
 			c.fillStyle = '#555555';
 			c.font = '48px serif';
-			c.fillText('Press Space to begin.', 350, 600);
+			c.fillText('Click to begin.', 250, 600);
 			c.drawImage(image, 0, 0);
 		} else {
 			//console.log("Blink Off");
@@ -129,27 +131,22 @@ function startScreen(c, canvas) {
 			c.clearRect(0, 0, canvas.width, canvas.height);
 			c.drawImage(image, 0, 0);
 		}
-		document.body.onkeydown = function (e) {
-			if (e.keyCode == 32) {
-				clearInterval(textInteveral);
-				var logoFadeInterval = window.setInterval(function () {
-					c.globalAlpha -= 0.01;
+		$('#canvas').click(function(e){
+			clearInterval(textInterval);
+			var logoFadeInterval = window.setInterval(function () {
+				c.globalAlpha -= 0.01;
+				c.clearRect(0, 0, canvas.width, canvas.height);
+				c.drawImage(image, 0, 0);
+				if (c.globalAlpha <= .01) {
+					//clearInterval(logoFadeInterval);
 					c.clearRect(0, 0, canvas.width, canvas.height);
-					c.drawImage(image, 0, 0);
-					if (c.globalAlpha <= .01) {
-						//clearInterval(logoFadeInterval);
-						c.clearRect(0, 0, canvas.width, canvas.height);
-						c.globalAlpha = 1;
-						//document.body.onkeydown = null;
-						setTimeout(function () {
-
-							drawScreen(c, canvas);
-						}, 1000);
-						//return;
-					}
-				}, 10);
-			}
-		};
+					c.globalAlpha = 1;
+					//document.body.onkeydown = null;
+				};
+			}, 10);
+			clearInterval(logoFadeInterval);
+			main(c,canvas);
+		});
 	}, 500);
 }
 
@@ -203,7 +200,7 @@ function getNewPiece() {
 	nextPiece = blockArr.shift();
     if (iPiece.collides(bottomBlock)) {
         gameOver();
-        console.log("GAME OVER");
+        console.log("GAME OVER, your score was: ", score);
     }
 	return iPiece;
 }
